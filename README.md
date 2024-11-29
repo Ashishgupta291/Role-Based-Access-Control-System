@@ -30,17 +30,17 @@ Admin Dashboard: Restricted to admins.
 # Project Structure 
 rbac-flask-system/
 │
-├── app.py               # Main application file
-├── models.py            # Database models and schema
-├── routes/              # API route definitions
-│   ├── auth.py          # Authentication and authorization
-│   ├── user.py          # User-specific functionality
-│   ├── moderator.py     # Moderator-specific functionality
-│   └── admin.py         # Admin-specific functionality
-├── templates/           # HTML templates (optional)
-├── static/              # Static files (CSS, JS)
-├── requirements.txt     # Python dependencies
-└── README.md            # Project documentation
+├── app.py
+├── models.py
+├── routes/
+│   ├── auth.py
+│   ├── user.py
+│   ├── moderator.py
+│   └── admin.py
+├── templates/
+├── static/
+├── requirements.txt
+└── README.md
 
 # Key Highlights
 Flask as Backend Framework:
