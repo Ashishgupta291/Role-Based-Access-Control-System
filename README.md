@@ -5,47 +5,51 @@ see live on - https://role-based-access-control-system.onrender.com
 Role-Based Access Control (RBAC) System
 This project implements a robust Role-Based Access Control (RBAC) system, focusing on secure user authentication, authorization, and role management. The system is backend-focused, designed to ensure users can access features and resources according to their assigned roles (Admin, Moderator, or User).
 
-# Features
-1. User Authentication
-User Registration: Allows users to sign up by providing a username, password, and selecting a role (User, Moderator, Admin).
-User Login: Secure login functionality using JWT (JSON Web Tokens) to authenticate users.
-2. Role-Based Authorization
-Each role has specific access privileges to protected resources:
-Admin: Full access to administrative dashboards and high-level system controls.
-Moderator: Access to moderation features and specific resources.
-User: Standard access to basic user functionalities.
-Protected routes ensure only authorized users can access endpoints based on their roles.
-3. Session Management
-JWT-based authentication for maintaining user sessions securely.
-Logout functionality invalidates tokens, ensuring secure session termination.
-4. Modular and Scalable Architecture
-Modularized backend structure for easy scalability and maintenance.
-Separation of concerns for authentication, authorization, and resource management.
-5. Test Endpoints
-Endpoints for testing the role-based access control functionality:
-User Profile: Accessible to all logged-in users.
-Moderator Dashboard: Restricted to moderators and above.
-Admin Dashboard: Restricted to admins.
+## Features
 
+### 1. User Authentication
+- **User Registration**: Allows users to sign up by providing a username, password, and selecting a role (User, Moderator, Admin).
+- **User Login**: Secure login functionality using **JWT (JSON Web Tokens)** to authenticate users.
 
-# Key Highlights
-Flask as Backend Framework:
+### 2. Role-Based Authorization
+- **Role-Specific Privileges**:
+  - **Admin**: Full access to administrative dashboards and high-level system controls.
+  - **Moderator**: Access to moderation features and specific resources.
+  - **User**: Standard access to basic functionalities.
+- **Protected Routes**: Ensures only authorized users can access endpoints based on their roles.
 
-Lightweight and modular, providing a clean API for managing routes and middleware.
-Simplified user-role mapping and database interactions.
-JWT-Based Security:
+### 3. Session Management
+- **JWT-Based Authentication**: Maintains user sessions securely.
+- **Logout Functionality**: Invalidates tokens, ensuring secure session termination.
 
-JSON Web Tokens are used to secure API endpoints, allowing stateless authentication.
-Scalable and Modular Design:
+### 4. Modular and Scalable Architecture
+- **Modular Backend Structure**: Designed for easy scalability and maintenance.
+- Separation of concerns for authentication, authorization, and resource management.
 
-Each role's functionality is separated into dedicated modules for better maintainability.
-Custom Error Handling:
+### 5. Test Endpoints
+Endpoints for testing role-based access control functionality:
+- **User Profile**: Accessible to all logged-in users.
+- **Moderator Dashboard**: Restricted to moderators and above.
+- **Admin Dashboard**: Restricted to admins.
 
-Unified response structure for errors and successful operations.
-Usage
-Register as a user, moderator, or admin using the /auth/register endpoint or UI form.
-Login to receive an authentication token.
-Use the token in the Authorization header (Bearer <token>) for accessing secured endpoints.
+---
+
+## Key Highlights
+
+### Flask as Backend Framework
+- Lightweight and modular, providing a clean API for managing routes and middleware.
+- Simplified user-role mapping and database interactions.
+
+### JWT-Based Security
+- JSON Web Tokens secure API endpoints, allowing stateless authentication.
+
+### Scalable and Modular Design
+- Dedicated modules for each role’s functionality ensure better maintainability.
+
+### Custom Error Handling
+- Unified response structure for errors and successful operations.
+
+---
 
 ## Prerequisites
 
