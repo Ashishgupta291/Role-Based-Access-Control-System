@@ -26,3 +26,37 @@ Endpoints for testing the role-based access control functionality:
 User Profile: Accessible to all logged-in users.
 Moderator Dashboard: Restricted to moderators and above.
 Admin Dashboard: Restricted to admins.
+
+# Project Structure 
+rbac-flask-system/
+│
+├── app.py               # Main application file
+├── models.py            # Database models and schema
+├── routes/              # API route definitions
+│   ├── auth.py          # Authentication and authorization
+│   ├── user.py          # User-specific functionality
+│   ├── moderator.py     # Moderator-specific functionality
+│   └── admin.py         # Admin-specific functionality
+├── templates/           # HTML templates (optional)
+├── static/              # Static files (CSS, JS)
+├── requirements.txt     # Python dependencies
+└── README.md            # Project documentation
+
+# Key Highlights
+Flask as Backend Framework:
+
+Lightweight and modular, providing a clean API for managing routes and middleware.
+Simplified user-role mapping and database interactions.
+JWT-Based Security:
+
+JSON Web Tokens are used to secure API endpoints, allowing stateless authentication.
+Scalable and Modular Design:
+
+Each role's functionality is separated into dedicated modules for better maintainability.
+Custom Error Handling:
+
+Unified response structure for errors and successful operations.
+Usage
+Register as a user, moderator, or admin using the /auth/register endpoint or UI form.
+Login to receive an authentication token.
+Use the token in the Authorization header (Bearer <token>) for accessing secured endpoints.
