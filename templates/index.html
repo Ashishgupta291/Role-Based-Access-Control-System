@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBAC Manager</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #444;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            font-size: 1.2em;
+            color: #34495e;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e67e22;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #dcdde1;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        button {
+            background-color: #e67e22;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+        }
+        button:hover {
+            background-color: #d35400;
+        }
+        .link-button {
+            background: none;
+            color: #3498db;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+            font-size: 1em;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-group button {
+            flex: 1;
+        }
+        #response {
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-left: 4px solid #e67e22;
+            margin-top: 20px;
+            display: none;
+        }
+        #resources-container {
+            display: none;
+            margin-top: 20px;
+        }
+        #resources-list {
+            padding: 0;
+            list-style: none;
+            margin: 0;
+        }
+        #resources-list li {
+            background-color: #f4f6f7;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+.username-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #dcdde1;
+}
+
+.username-display h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #34495e;
+}
+
+.username-display .logout-button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.7em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.username-display .logout-button:hover {
+    background-color: #c0392b;
+}
+
+    </style>
+</head>
+<body>
+    <header>Role-Based Access Control (RBAC) System</header>
+    <div class="container">
+        <div class="username-display">
+            <h3   id="username-display">Welcome, Guest </h3>
+            <a  class="btn-danger logout-button" onclick="logout()">Logout</a>
+        </div>
+        <div id="response"></div>
+
+        <!-- Form Container -->
+        <div id="form-container">
+            <!-- Login Form -->
+            <div id="login-form" class="section">
+                <h2>Login</h2>
+                <input id="login-username" placeholder="Username">
+                <input id="login-password" type="password" placeholder="Password">
+                <button onclick="login()">Login</button>
+                <p>New user? <a class="link-button" onclick="showRegisterForm()">Register here</a></p>
+            </div>
+
+            <!-- Registration Form -->
+            <div id="register-form" class="section" style="display: none;">
+                <h2>Register</h2>
+                <input id="reg-username" placeholder="Username">
+                <input id="reg-password" type="password" placeholder="Password">
+                <select id="reg-role">
+                    <option value="user">User</option>
+                    <option value="moderator">Moderator</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <button onclick="register()">Register</button>
+                <p>Already registered? 
+                    <a class="link-button" onclick="showLoginForm()">Login here</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Test Endpoints -->
+        <div class="section">
+            <h2>Test Endpoints</h2>
+            <div class="btn-group">
+                <button onclick="profile()">User Profile</button>
+                <button onclick="moderator_dashboard()">Moderator Dashboard</button>
+                <button onclick="dashboard()">Admin Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Accessible Resources -->
+        <div id="resources-container">
+            <h2>Accessible Resources</h2>
+            <ul id="resources-list"></ul>
+        </div>
+
+        
+    </div>
+    <footer>
+        &copy; 2024 RBAC Manager. All rights reserved.
+    </footer>
+
+    <script>
+        let token = '';
+        let loggedInUsername = 'Guest';
+
+        function updateUsernameDisplay() {
+            const usernameDisplay = document.getElementById('username-display');
+            usernameDisplay.textContent = `Welcome, ${loggedInUsername}`;
+        }
+
+        function showResponse(msg) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.style.display = 'block';
+            responseDiv.innerText = msg;
+
+            responseDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function displayResources(resources) {
+            const resourcesContainer = document.getElementById('resources-container');
+            const resourcesList = document.getElementById('resources-list');
+            resourcesList.innerHTML = '';
+            resources.forEach(resource => {
+                const li = document.createElement('li');
+                li.textContent = resource;
+                resourcesList.appendChild(li);
+            });
+            resourcesContainer.style.display = 'block';
+        }
+
+        function showLoginForm() {
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        }
+
+        function showRegisterForm() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+        }
+
+        async function register() {
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+            const role = document.getElementById('reg-role').value;
+
+            const res = await fetch('/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password, role })
+            });
+
+            const data = await res.json();
+            showResponse(data.message || data.error + " !!!");
+        }
+
+        async function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const res = await fetch('/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await res.json();
+            token = data.token || '';
+            if (data.token) {
+                loggedInUsername = data.username || 'Guest';
+                updateUsernameDisplay();
+            }
+            showResponse(data.message || data.error + " !!!");
+        }
+
+        async function profile() {
+            const res = await fetch('/user/profile', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const data = await res.json();
+            if (data.accessible_resources) {
+                displayResources(data.accessible_resources);
+            }
+            showResponse(data.message || data.error + " !!!");
+        }
+
+        async function moderator_dashboard() {
+            const res = await fetch('/moderator/moderator_dashboard', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const data = await res.json();
+            if (data.accessible_resources) {
+                displayResources(data.accessible_resources);
+            }
+            showResponse(data.message || data.error + " !!!");
+        }
+
+        async function dashboard() {
+            const res = await fetch('/admin/dashboard', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const data = await res.json();
+            if (data.accessible_resources) {
+                displayResources(data.accessible_resources);
+            }
+            showResponse(data.message || data.error+ " !!!");
+        }
+
+        async function logout() {
+            if (!token) {
+                showResponse('You are not logged in!!');
+                return;
+            }
+            token = '';
+            loggedInUsername = 'Guest';
+            updateUsernameDisplay();
+            document.getElementById('resources-container').style.display = 'none';
+            showResponse('Logged out successfully.');
+        }
+    </script>
+</body>
+</html>
