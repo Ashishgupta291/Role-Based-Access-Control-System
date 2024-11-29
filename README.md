@@ -47,56 +47,55 @@ Register as a user, moderator, or admin using the /auth/register endpoint or UI 
 Login to receive an authentication token.
 Use the token in the Authorization header (Bearer <token>) for accessing secured endpoints.
 
-### Prerequisites
+## Prerequisites
 
-1. Install **Python 3.x** and **pip** (Python's package installer).
-2. Clone the repository:
+### System Requirements
+- Python 3.x
+- Pip (Python's package installer)
 
-    
-bash
+### Setup Steps
+1. **Clone the Repository**:
+    ```bash
     git clone https://github.com/Ashishgupta291/Role-Based-Access-Control-System.git
     cd Role-Based-Access-Control-System
+    ```
 
-
-3. Create a virtual environment:
-
-    
-bash
+2. **Create a Virtual Environment**:
+    ```bash
     python3 -m venv venv
     source venv/bin/activate  # On Windows, use venv\Scripts\activate
+    ```
 
-
-4. Install the required dependencies:
-
-    
-bash
+3. **Install Dependencies**:
+    ```bash
     pip install -r requirements.txt
+    ```
 
-
-5. Set up the database (using Flask-Migrate or manually):
-
-    
-bash
+4. **Set Up the Database**:
+    Using Flask-Migrate or manually:
+    ```bash
     flask db init
     flask db migrate
     flask db upgrade
+    ```
 
+---
 
-### Configuration
+## Configuration
 
-The project uses a configuration file (config.py) to manage application settings such as the secret key for JWT.
+The project uses a configuration file (`config.py`) to manage application settings such as the secret key for JWT. 
 
-Make sure to set the following environment variables:
+Set the following environment variables:
 
-- FLASK_APP=app.py
-- FLASK_ENV=development
-- SECRET_KEY=your_secret_key (Change to a secret key of your choice)
+- `FLASK_APP=app.py`
+- `FLASK_ENV=development`
+- `SECRET_KEY=your_secret_key` (Change to a secure key)
+
+---
 
 ## Usage
 
 ### Running the Application
-
-To start the Flask application, use the following command:
-
-bash
+To start the Flask application, run:
+```bash
 python app.py
