@@ -27,7 +27,7 @@ User Profile: Accessible to all logged-in users.
 Moderator Dashboard: Restricted to moderators and above.
 Admin Dashboard: Restricted to admins.
 
-# Project Structure 
+## Project Structure 
 rbac-flask-system/
 │
 ├── app.py
