@@ -60,3 +60,53 @@ Usage
 Register as a user, moderator, or admin using the /auth/register endpoint or UI form.
 Login to receive an authentication token.
 Use the token in the Authorization header (Bearer <token>) for accessing secured endpoints.
+
+### Prerequisites
+
+1. Install **Python 3.x** and **pip** (Python's package installer).
+2. Clone the repository:
+
+    ```bash
+    git clone https://github.com/Ashishgupta291/Role-Based-Access-Control-System.git
+    cd Role-Based-Access-Control-System
+    ```
+
+3. Create a virtual environment:
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows, use venv\Scripts\activate
+    ```
+
+4. Install the required dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+5. Set up the database (using Flask-Migrate or manually):
+
+    ```bash
+    flask db init
+    flask db migrate
+    flask db upgrade
+    ```
+
+### Configuration
+
+The project uses a configuration file (`config.py`) to manage application settings such as the secret key for JWT.
+
+Make sure to set the following environment variables:
+
+- `FLASK_APP=app.py`
+- `FLASK_ENV=development`
+- `SECRET_KEY=your_secret_key` (Change to a secret key of your choice)
+
+## Usage
+
+### Running the Application
+
+To start the Flask application, use the following command:
+
+```bash
+python app.py
